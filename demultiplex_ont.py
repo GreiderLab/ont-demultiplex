@@ -89,6 +89,11 @@ def process_single_fastq(fastq_file, barcodes_to_check, barcode_labels, args):
             head_segment = seq[:args.search_dist]
             tail_segment = seq[-args.search_dist:]
 
+            # Searches all 4 combinations (head/tail x fwd/rev) for generality.
+            # For the Karimian 2024 TeloTag protocol specifically, the barcode is
+            # ligated to the 3' telomere overhang, so for that data hits are
+            # head+rev or tail+fwd only. The search could be restricted to those
+            # two combinations for that protocol.
             head_matches = find_barcode_matches(head_segment, barcodes_to_check, args.max_errors)
             tail_matches = find_barcode_matches(tail_segment, barcodes_to_check, args.max_errors)
 
